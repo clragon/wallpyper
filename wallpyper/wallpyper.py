@@ -74,7 +74,7 @@ def load_settings(file):
             # and if so try to load it
             sets = settings()
             sets.__dict__ = settings.load(file)
-        except:
+        except Exception:
             # if the file isnt able to be parsed, default.
             sets = settings()
     else:
@@ -109,7 +109,7 @@ def clean_output(directory):
     invalid = 0
     clean = get_files(directory)
     for string, md5 in clean.items():
-        if (imghdr.what((os.path.join(directory, string))) == None):
+        if (imghdr.what((os.path.join(directory, string))) is None):
             os.remove(os.path.join(directory, string))
             invalid += 1
     print("[{}] deleted {} invalid files".format(datetime.datetime.now(), invalid))
