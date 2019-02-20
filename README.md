@@ -7,12 +7,15 @@ Every day.
 To do this, it is armed with configuration files, logs and blacklists.
 
 Upon running it, it will compare new pictures with current ones and only copy the ones that are missing.
-It is fine-tuned to have a threshold for file size so pictures for ads don't get copied. 
+It is fine-tuned to have a threshold for file size so cached thumbnails for ads don't get copied. 
 
 ## Configuration
 Configuring wallpyper is done through the command line or direct editing of the `pyper_conf.json` file, 
 which is in the same directory as the script itself.
-The syntax for commandline usage is the following;
+
+### Syntax
+
+The syntax for commandline usage is the following:
 ```
 usage: wallpyper.exe [-h] [-c] [-t DIRECTORY] [-b FILE]
 
@@ -24,7 +27,9 @@ optional arguments:
   -t DIRECTORY, --target DIRECTORY        set the directory to where the wallpapers get extracted to.
   -b FILE, --blacklist FILE               add a file to the backlist
 ```
-I provide a premade blacklist to filter out ad-thumbnails that are known to me;
+### Blacklist
+
+I provide a premade blacklist to filter known ad thumbnails.
 ```
 "82727b41ac0fd92db411cbf08a4da37c",
 "760ac5d4780e4cd4c747eabd1f986ab7",
@@ -38,6 +43,9 @@ I provide a premade blacklist to filter out ad-thumbnails that are known to me;
 "feb0b0575c6083800ddb68958825356e",
 "23109eb71dfc7e0a6b11f92d6de228d1",
 ```
+### Autorun
+
+Wallpyper will not run by itself; You will have to link it in the autostart or make an entry in the task scheduler.
 
 ## Relase
 Compiled binary-versions of the script are provided on the releases page.
