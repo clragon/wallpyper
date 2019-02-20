@@ -11,7 +11,11 @@ import os
 
 
 INPUT_DIR = os.environ['localappdata'] + "/Packages/Microsoft.Windows.ContentDeliveryManager_cw5n1h2txyewy/LocalState/Assets/"
-SETTINGS_FILE = "pyper_conf.json"
+if getattr(os.sys, 'frozen', False):
+    app_path = os.path.dirname(os.sys.executable)
+else:
+    app_path = os.path.dirname(os.path.abspath(__file__))
+SETTINGS_FILE = os.path.join(app_path, "pyper_conf.json")
 LOG_FILE = "pyper.log"
 NAME = "Spotlight"
 
