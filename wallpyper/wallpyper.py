@@ -27,22 +27,26 @@ def main():
     if (arg.clean):
 
         clean()
+    
+    if (arg.directory):
 
-    if (arg.directory is not None):
+        if (arg.directory is not None):
 
-        set_output_dir(arg.directory)
-        os.sys.exit()
+            set_output_dir(arg.directory)
+            os.sys.exit()
         
         else:
-            print("Error: Directory does not exist: \"{}\"".format(arg.directory))
+            print("[{}] [Error] Directory does not exist: \"{}\"".format(datetime.datetime.now(), arg.directory))
 
-    if (arg.file is not None):
-        
-        add_to_blacklist(arg.file)
-        os.sys.exit()
+    if (arg.file):
+
+        if (arg.file is not None):
+            
+            add_to_blacklist(arg.file)
+            os.sys.exit()
         
         else:
-            print("Error: File does not exist: \"{}\"".format(arg.file))
+            print("[{}] [Error] File does not exist: \"{}\"".format(datetime.datetime.now(), arg.file))
     
     run()
 
