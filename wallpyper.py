@@ -88,7 +88,7 @@ def load_settings(file):
             sets = settings()
             sets.__dict__ = settings.load(file)
         except:
-            # if the file isnt able to be prased, default.
+            # if the file isnt able to be parsed, default.
             sets = settings()
     else:
         sets = settings()
