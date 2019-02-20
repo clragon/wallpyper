@@ -14,59 +14,38 @@ INPUT_DIR = os.environ['localappdata'] + "/Packages/Microsoft.Windows.ContentDel
 SETTINGS_FILE = "pyper_conf.json"
 LOG_FILE = "pyper.log"
 NAME = "Spotlight"
-SETS = None
 
 
 def main():
-    
-    global SETS
-    SETS = load_settings(SETTINGS_FILE)
-    
+
     parser = argparse.ArgumentParser(description="Flip a switch by setting a flag")
-    parser.add_argument('-c', '--clean', action='store_true', help="deletes duplicate, blackisted and invalid files in the output directory and renames them")
+    parser.add_argument('-c', '--clean', action='store_true', help="deletes duplicate, blacklisted and invalid files in the output directory and renames files")
     parser.add_argument('-t', '--target', dest='directory', help="set the directory to where the wallpapers get extracted to.")
     parser.add_argument('-b', '--blacklist', dest='file', help="add a file to the backlist")
 
     arg = parser.parse_args()
     if (arg.clean):
-        os.sys.stdout = open(LOG_FILE, 'a')
-        clean_output(SETS.output_dir)
+
+        clean()
+
     if (arg.directory is not None):
-        if (os.path.isdir(arg.directory)):
-            SETS.output_dir = arg.directory
-            SETS.save(SETTINGS_FILE)
-            os.sys.exit()
+
+        set_output_dir(arg.directory)
+        os.sys.exit()
+        
         else:
             print("Error: Directory does not exist: \"{}\"".format(arg.directory))
+
     if (arg.file is not None):
-        if (os.path.isfile(arg.file)):
-            hasher = hashlib.md5()
-            hasher.update(open(arg.file, 'rb').read())
-            SETS.blacklist.append(hasher.hexdigest())
-            SETS.save(SETTINGS_FILE)
-            os.sys.exit()
+        
+        add_to_blacklist(arg.file)
+        os.sys.exit()
+        
         else:
             print("Error: File does not exist: \"{}\"".format(arg.file))
-
-    os.sys.stdout = open(LOG_FILE, 'a')
-
-    os.makedirs(SETS.output_dir, exist_ok=True)
     
-    papers = get_files(INPUT_DIR)
-    walls = get_files(SETS.output_dir)
+    run()
 
-    transfer = dict()
-    for string, md5 in papers.items():
-        if md5 not in walls.values():
-            if md5 not in SETS.blacklist:
-                if (os.stat(os.path.join(INPUT_DIR, string)).st_size > 190000):
-                    transfer[string] = md5
-
-    index = len(walls)
-    for string, md5 in transfer.items():
-        index += 1
-        copyfile(os.path.join(INPUT_DIR, string), os.path.join(SETS.output_dir, '{} ({}){}'.format(NAME, index, ".png")))
-    print("[{}] fetched {} wallpapers".format(datetime.datetime.now(), len(transfer)))
 
 
 def get_files(directory):
@@ -134,6 +113,58 @@ def clean_output(directory):
     for index, string in enumerate(get_files(directory)):
         os.rename(os.path.join(directory, string), os.path.join(directory, "{} ({}){}".format(NAME, index + 1, os.path.splitext(directory + string)[1])))
 
+
+def run():
+
+    global SETS
+    SETS = load_settings(SETTINGS_FILE)
+
+    os.sys.stdout = open(LOG_FILE, 'a')
+
+    os.makedirs(SETS.output_dir, exist_ok=True)
+    
+    papers = get_files(INPUT_DIR)
+    walls = get_files(SETS.output_dir)
+
+    transfer = dict()
+    for string, md5 in papers.items():
+        if md5 not in walls.values():
+            if md5 not in SETS.blacklist:
+                if (os.stat(os.path.join(INPUT_DIR, string)).st_size > 190000):
+                    transfer[string] = md5
+
+    index = len(walls)
+    for string, md5 in transfer.items():
+        index += 1
+        copyfile(os.path.join(INPUT_DIR, string), os.path.join(SETS.output_dir, '{} ({}){}'.format(NAME, index, ".png")))
+    print("[{}] fetched {} wallpapers".format(datetime.datetime.now(), len(transfer)))
+
+
+def clean():
+
+    SETS = load_settings(SETTINGS_FILE)
+
+    os.sys.stdout = open(LOG_FILE, 'a')
+    
+    clean_output(SETS.output_dir)
+
+def set_output_dir(directory):
+
+    SETS = load_settings(SETTINGS_FILE)
+
+    if (os.path.isdir(directory)):
+        SETS.output_dir = directory
+        SETS.save(SETTINGS_FILE)
+
+def add_to_blacklist(file):
+
+    SETS = load_settings(SETTINGS_FILE)
+
+    if (os.path.isfile(arg.file)):
+        hasher = hashlib.md5()
+        hasher.update(open(arg.file, 'rb').read())
+        SETS.blacklist.append(hasher.hexdigest())
+        SETS.save(SETTINGS_FILE)
 
 
 class settings:
