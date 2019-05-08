@@ -22,7 +22,7 @@ NAME = "Spotlight"
 
 def main():
 
-    parser = argparse.ArgumentParser(description="Flip a switch by setting a flag")
+    parser = argparse.ArgumentParser(description="A tool to extract the spotlight wallpapers on windows 10")
     parser.add_argument('-c', '--clean', action='store_true', help="deletes duplicate, blacklisted and invalid files in the output directory and renames files")
     parser.add_argument('-t', '--target', dest='directory', help="set the directory to where the wallpapers get extracted to.")
     parser.add_argument('-b', '--blacklist', dest='file', help="add a file to the backlist")
