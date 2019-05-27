@@ -21,7 +21,7 @@ The syntax for commandline usage is the following:
 ```
 usage: wallpyper.exe [-h] [-c] [-t DIRECTORY] [-b FILE]
 
-Flip a switch by setting a flag
+A tool to extract the spotlight wallpapers on windows 10
 
 optional arguments:
   -h, --help                              show this help message and exit
