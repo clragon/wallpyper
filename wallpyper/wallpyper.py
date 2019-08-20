@@ -83,6 +83,8 @@ def load_settings(file):
 
 def clean_output(directory):
 
+    global SETS
+
     delete = 0
     clean = get_files(directory)
     md5_counts = Counter(clean.values())
@@ -127,7 +129,7 @@ def run():
     global SETS
     SETS = load_settings(SETTINGS_FILE)
 
-    os.sys.stdout = open(LOG_FILE, 'a')
+    # os.sys.stdout = open(LOG_FILE, 'a')
 
     os.makedirs(SETS.output_dir, exist_ok=True)
     
@@ -150,6 +152,7 @@ def run():
 
 def clean():
 
+    global SETS
     SETS = load_settings(SETTINGS_FILE)
 
     os.sys.stdout = open(LOG_FILE, 'a')
